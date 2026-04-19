@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------- Base defaults (make the app look less "raw HTML") -------- */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+      Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+
+  a {
+    @apply text-slate-900 underline-offset-4;
+  }
+  a:hover {
+    @apply underline;
+  }
+
+  h1 {
+    @apply text-3xl font-bold tracking-tight text-slate-900;
+  }
+  h2 {
+    @apply text-2xl font-semibold tracking-tight text-slate-900;
+  }
+  h3 {
+    @apply text-xl font-semibold text-slate-900;
+  }
+
+  /* Better focus outlines for keyboard users */
+  :focus-visible {
+    @apply outline-none ring-2 ring-slate-900/20 ring-offset-2 ring-offset-slate-50;
+  }
+}
+
+/* -------- Reusable component styles -------- */
+@layer components {
+  /* A nice centered layout helper */
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 py-6 sm:px-6;
+  }
+
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold
+      transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-slate-900 border border-slate-200 hover:bg-slate-50;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-700 hover:bg-slate-100;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+  .badge-green {
+    @apply badge bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200;
+  }
+  .badge-amber {
+    @apply badge bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200;
+  }
+  .badge-red {
+    @apply badge bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm
+      placeholder:text-slate-400 shadow-sm
+      focus:border-slate-300;
+  }
+}
+
+/* -------- Small utilities -------- */
+@layer utilities {
+  /* Subtle “skeleton loading” shimmer */
+  .skeleton {
+    @apply relative overflow-hidden rounded-xl bg-slate-200/70;
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.55),
+      transparent
+    );
+    animation: shimmer 1.25s infinite;
+  }
+
+  /* Nice scrollbar (Chromium/Edge) */
+  .nice-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .nice-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.18);
+    border-radius: 999px;
+    border: 3px solid rgba(248, 250, 252, 1);
+  }
+  .nice-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 42, 0.28);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes toastIn {
+  from { transform: translateY(-6px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
