@@ -20,7 +20,7 @@ function stockBadge(stockQty) {
 function ProductCardSkeleton() {
   return (
     <div className="card card-hover p-4">
-      <div className="skeleton h-40 w-full rounded-xl" />
+      <div className="skeleton h-44 w-full rounded-xl" />
       <div className="mt-4 space-y-2">
         <div className="skeleton h-4 w-2/3" />
         <div className="skeleton h-4 w-1/3" />
@@ -42,20 +42,22 @@ export default function ProductGrid() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const isLoading = status === "idle" || status === "loading";
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return items || [];
     return (items || []).filter((p) => String(p?.name || "").toLowerCase().includes(q));
   }, [items, query]);
 
-  const isLoading = status === "idle" || status === "loading";
-
   return (
-    <div>
+    <div className="py-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1>Products</h1>
-          <p className="mt-1 text-sm text-slate-600">Browse inventory and add items to your cart.</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Browse inventory and add items to your cart.
+          </p>
         </div>
 
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
@@ -80,9 +82,9 @@ export default function ProductGrid() {
       </div>
 
       {error ? (
-        <div className="mt-6 card p-4 border-rose-200 bg-rose-50 text-rose-800">
+        <div className="mt-6 card p-4 border-rose-200 bg-rose-50 text-rose-900">
           <div className="font-semibold">Couldn’t load products</div>
-          <div className="mt-1 text-sm">{error}</div>
+          <div className="mt-1 text-sm opacity-80">{error}</div>
           <div className="mt-3">
             <button className="btn-primary" onClick={() => dispatch(fetchProducts())}>
               Try again
@@ -103,7 +105,7 @@ export default function ProductGrid() {
         <div className="mt-6 card p-6">
           <div className="text-lg font-semibold text-slate-900">No products yet</div>
           <p className="mt-1 text-sm text-slate-600">
-            Add a product in MongoDB Atlas (Data Explorer) and refresh.
+            Add products in MongoDB Atlas and refresh.
           </p>
           <div className="mt-4">
             <button className="btn-primary" onClick={() => dispatch(fetchProducts())}>
@@ -117,7 +119,8 @@ export default function ProductGrid() {
         <>
           <div className="mt-6 flex flex-wrap items-center justify-between gap-2 text-sm text-slate-600">
             <div>
-              Showing <span className="font-semibold text-slate-900">{filtered.length}</span> of{" "}
+              Showing{" "}
+              <span className="font-semibold text-slate-900">{filtered.length}</span> of{" "}
               <span className="font-semibold text-slate-900">{items.length}</span> product(s)
             </div>
 
@@ -176,11 +179,7 @@ export default function ProductGrid() {
                       onClick={() => {
                         if (outOfStock) return;
                         dispatch(addToCart(p));
-                        toast.push({
-                          type: "success",
-                          title: "Added to cart",
-                          message: p.name,
-                        });
+                        toast.push({ type: "success", title: "Added to cart", message: p.name });
                       }}
                       disabled={outOfStock}
                       className={outOfStock ? "btn-secondary w-full mt-4" : "btn-primary w-full mt-4"}

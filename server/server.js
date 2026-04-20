@@ -9,6 +9,9 @@ import productRoutes from "./src/routes/productRoutes.js";
 import orderRoutes from "./src/routes/orderRoutes.js";
 
 dotenv.config();
+console.log("RUNNING FILE:", import.meta.url);
+console.log("CWD:", process.cwd());
+console.log("ENV PORT:", process.env.PORT);
 
 const app = express();
 
@@ -38,6 +41,13 @@ async function start() {
 
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
+const server = app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log("server.address():", server.address());
+});
+server.on("error", (err) => {
+  console.error("LISTEN ERROR:", err);
+});
 
 start().catch((e) => {
   console.error("Failed to start server:", e);
