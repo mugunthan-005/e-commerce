@@ -9,7 +9,8 @@ build/
 .env.*
 server/.env
 client/.env
-
+client/.vite/
+.vite/
 *.log
 .vscode/
 .idea/
